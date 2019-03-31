@@ -137,9 +137,10 @@ public class GloWidgetService extends RemoteViewsService {
 
         public void updateJSONString(){
             // get or create SharedPreferences
-            sharedPref = getSharedPreferences("glo-app", MODE_PRIVATE);
+            sharedPref = context.getSharedPreferences("glo-app", MODE_PRIVATE);
             String token = sharedPref.getString("token", "null");
             if(token == "null") {
+
                 return;
             }else{
                 PAT_key = token;
@@ -147,6 +148,7 @@ public class GloWidgetService extends RemoteViewsService {
 
             String board = sharedPref.getString("board", "null");
             if(token == "null") {
+
                 return;
             }else{
                 BOARD_key = board;

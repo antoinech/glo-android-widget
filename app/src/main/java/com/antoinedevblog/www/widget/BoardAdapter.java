@@ -3,11 +3,13 @@ package com.antoinedevblog.www.widget;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -38,19 +40,21 @@ public class BoardAdapter extends ArrayAdapter<Board> {
 
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_layout, parent, false);
 
+            convertView.setTag(position);
+            convertView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+                    int position = (Integer) view.getTag();
+                    // Access the row position here to get the correct data item
+                    Board board = getItem(position);
+                    if (board != null) {
+                        selectBoard(board.id);
+                    }
+
+                }
+            });
         }
-
-        convertView.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View view) {
-                int position = (Integer) view.getTag();
-                // Access the row position here to get the correct data item
-                Board board = getItem(position);
-                selectBoard(board.id);
-            }
-        });
 
 
         // Lookup view for data population
@@ -69,7 +73,7 @@ public class BoardAdapter extends ArrayAdapter<Board> {
     }
 
     private void selectBoard(String id){
-
+        Toast.makeText(getContext(),"Board Selected",Toast.LENGTH_SHORT).show();
         sharedPref = this.getContext().getSharedPreferences("glo-app", MODE_PRIVATE);
         // save your string in SharedPreferences
         sharedPref.edit().putString("board", id).commit();

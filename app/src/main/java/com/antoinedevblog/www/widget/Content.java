@@ -29,8 +29,8 @@ import java.util.Map;
 
 public class Content extends AppCompatActivity {
     //Put your credentials here
-    private String clientID = "ci3xxwqzmm8rdoor3ug5";
-    private String clientSECRET = "659g4jgojcyvidmye0ekhsrsi2jkjjexdi8q3afg";
+    private String clientID = "YOUR-CLIENT-ID";
+    private String clientSECRET = "YOUR-CLIENT-SECRET";
     private String gloOAUTHurl = "https://app.gitkraken.com/oauth/authorize";
     private String access_token;
     private SharedPreferences sharedPref;
@@ -102,6 +102,7 @@ public class Content extends AppCompatActivity {
     }
 
     private void sendTokenToWidget(){
+        Toast.makeText(this,"Token Recieved",Toast.LENGTH_SHORT).show();
         sharedPref = getSharedPreferences("glo-app", MODE_PRIVATE);
         // save your string in SharedPreferences
         sharedPref.edit().putString("token", access_token).commit();
@@ -109,7 +110,5 @@ public class Content extends AppCompatActivity {
         //Open Board selector
         Intent intent = new Intent(this, BoardActivity.class);
         startActivity(intent);
-
-        //sharedPref.edit().putString("board","5bab6d4954d8310e0064a7b8").commit();
     }
 }
