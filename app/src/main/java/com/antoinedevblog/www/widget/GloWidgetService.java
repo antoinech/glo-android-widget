@@ -40,6 +40,7 @@ public class GloWidgetService extends RemoteViewsService {
         private int widgetId;
         private String PAT_key = "";
         private String BOARD_key = " ";
+        private String COLUMN_id = " ";
         private String jsonString = "[{\"name\": \"Cards Not Loaded\",\"description\": \"\"}]";
         JSONArray jsonArray;
         SharedPreferences sharedPref;
@@ -69,7 +70,7 @@ public class GloWidgetService extends RemoteViewsService {
 
         @Override
         public int getCount() {
-            return  jsonArray.length();
+            return jsonArray.length();
         }
 
         @Override
@@ -148,13 +149,18 @@ public class GloWidgetService extends RemoteViewsService {
 
             String board = sharedPref.getString("board", "null");
             if(token == "null") {
-
                 return;
             }else{
                 BOARD_key = board;
             }
+            String column = sharedPref.getString("columnid", "null");
+            if(token == "null") {
+                return;
+            }else{
+                COLUMN_id = column;
+            }
 
-            String url = "https://gloapi.gitkraken.com/v1/glo/boards/" + BOARD_key + "/cards?fields=name,description";
+            String url = "https://gloapi.gitkraken.com/v1/glo/boards/" + BOARD_key +"/columns/" + COLUMN_id+ "/cards?fields=name,description";
             RequestQueue queue = Volley.newRequestQueue(context);
 
             // Request a string response from the provided URL.

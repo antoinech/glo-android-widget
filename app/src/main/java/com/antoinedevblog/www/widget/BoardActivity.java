@@ -35,7 +35,6 @@ public class BoardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
 
-
         updateJSONString();
 
     }
@@ -64,7 +63,7 @@ public class BoardActivity extends AppCompatActivity {
             PAT_key = token;
         }
 
-        String url = "https://gloapi.gitkraken.com/v1/glo/boards";
+        String url = "https://gloapi.gitkraken.com/v1/glo/boards?fields=name,columns";
         RequestQueue queue = Volley.newRequestQueue(this);
 
         // Request a string response from the provided URL.

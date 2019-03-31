@@ -1,6 +1,7 @@
 package com.antoinedevblog.www.widget;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -49,7 +51,7 @@ public class BoardAdapter extends ArrayAdapter<Board> {
                     // Access the row position here to get the correct data item
                     Board board = getItem(position);
                     if (board != null) {
-                        selectBoard(board.id);
+                        selectBoard(board);
                     }
 
                 }
@@ -72,11 +74,12 @@ public class BoardAdapter extends ArrayAdapter<Board> {
 
     }
 
-    private void selectBoard(String id){
+    private void selectBoard(Board board){
         Toast.makeText(getContext(),"Board Selected",Toast.LENGTH_SHORT).show();
         sharedPref = this.getContext().getSharedPreferences("glo-app", MODE_PRIVATE);
         // save your string in SharedPreferences
-        sharedPref.edit().putString("board", id).commit();
+        sharedPref.edit().putString("board", board.id).commit();
+        sharedPref.edit().putString("columns",board.columns.toString()).commit();
     }
 
 }

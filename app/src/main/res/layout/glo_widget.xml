@@ -36,11 +36,42 @@
     </LinearLayout>
 
     <ListView
+        android:id="@+id/stackview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/stackview"
-        android:padding="2dp">
+        android:padding="2dp"
+        android:layout_weight="1">
 
     </ListView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_prev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="PREV"  />
+
+        <TextView
+            android:id="@+id/column_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="Column Name"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        <Button
+            android:id="@+id/button_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NEXT"
+            android:layout_gravity="right"/>
+    </LinearLayout>
 
 </LinearLayout>
