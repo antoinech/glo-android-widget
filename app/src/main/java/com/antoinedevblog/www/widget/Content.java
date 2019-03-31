@@ -2,6 +2,7 @@ package com.antoinedevblog.www.widget;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ public class Content extends AppCompatActivity {
     private String clientSECRET = "659g4jgojcyvidmye0ekhsrsi2jkjjexdi8q3afg";
     private String gloOAUTHurl = "https://app.gitkraken.com/oauth/authorize";
     private String access_token;
+    private SharedPreferences sharedPref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +101,9 @@ public class Content extends AppCompatActivity {
     }
 
     private void sendTokenToWidget(){
-        
-
+        sharedPref = getSharedPreferences("glo-app", MODE_PRIVATE);
+        // save your string in SharedPreferences
+        sharedPref.edit().putString("token", access_token).commit();
+        sharedPref.edit().putString("board","5bab6d4954d8310e0064a7b8").commit();
     }
 }

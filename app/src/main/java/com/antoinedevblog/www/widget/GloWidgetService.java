@@ -3,6 +3,7 @@ package com.antoinedevblog.www.widget;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -13,6 +14,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -37,8 +39,10 @@ public class GloWidgetService extends RemoteViewsService {
         private Context context;
         private int widgetId;
         private String PAT_key = "";
-        private String jsonString = "[{\"name\": \"Cards Not Loaded\",\"id\": \"\"}]";
+        private String BOARD_key = " ";
+        private String jsonString = "[{\"name\": \"Cards Not Loaded\",\"description\": \"\"}]";
         JSONArray jsonArray;
+        SharedPreferences sharedPref;
 
         GloWidgetCardFactory(Context context, Intent intent){
             this.context = context;
@@ -80,7 +84,16 @@ public class GloWidgetService extends RemoteViewsService {
             String title = "", desc = "";
             try {
                 title = JO.getString("name");
-                desc = JO.getString("id");
+                JSONObject descObj = JO.getJSONObject("description");
+                String description = ((JSONObject) descObj).getString("text");
+                //Shortens the description if too long
+                if(description.length() >= 14)
+                {
+                    description = description.substring(1, 125);
+                    description +="...";
+                }
+
+                desc =description;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -123,7 +136,23 @@ public class GloWidgetService extends RemoteViewsService {
         }
 
         public void updateJSONString(){
-            String url = "https://gloapi.gitkraken.com/v1/glo/boards";
+            // get or create SharedPreferences
+            sharedPref = getSharedPreferences("glo-app", MODE_PRIVATE);
+            String token = sharedPref.getString("token", "null");
+            if(token == "null") {
+                return;
+            }else{
+                PAT_key = token;
+            }
+
+            String board = sharedPref.getString("board", "null");
+            if(token == "null") {
+                return;
+            }else{
+                BOARD_key = board;
+            }
+
+            String url = "https://gloapi.gitkraken.com/v1/glo/boards/" + BOARD_key + "/cards?fields=name,description";
             RequestQueue queue = Volley.newRequestQueue(context);
 
             // Request a string response from the provided URL.

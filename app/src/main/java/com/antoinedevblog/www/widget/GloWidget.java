@@ -33,7 +33,7 @@ public class GloWidget extends AppWidgetProvider {
         CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.glo_widget);
-        views.setTextViewText(R.id.appwidget_text, "Glo Boards");
+        views.setTextViewText(R.id.appwidget_text, "GitKraken Glo");
         views.setRemoteAdapter(R.id.stackview, serviceIntent);
 
         views.setOnClickPendingIntent(R.id.refresh_button, clickPendingIntent);
