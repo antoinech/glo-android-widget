@@ -61,7 +61,6 @@ public class Board {
 
 
         } catch (JSONException e) {
-            Log.e("MyFilter","Holy shit, it's not even fetching new boards");
             e.printStackTrace();
 
         }

@@ -29,17 +29,18 @@ import java.util.Map;
 
 public class Content extends AppCompatActivity {
     //Put your credentials here
-    private String clientID = "ci3xxwqzmm8rdoor3ug5";
-    private String clientSECRET = "659g4jgojcyvidmye0ekhsrsi2jkjjexdi8q3afg";
+    private String clientID = "YOUR--CLIENT--ID";
+    private String clientSECRET = "YOUR--CLIENT--SECRET";
     private String gloOAUTHurl = "https://app.gitkraken.com/oauth/authorize";
     private String access_token;
     private SharedPreferences sharedPref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("GitKraken Glo Widget");
         setContentView(R.layout.activity_content);
         sharedPref = getSharedPreferences("glo-app", MODE_PRIVATE);
-
+        sharedPref.edit().clear().commit();
         final Button button = (Button) findViewById(R.id.auth_button);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

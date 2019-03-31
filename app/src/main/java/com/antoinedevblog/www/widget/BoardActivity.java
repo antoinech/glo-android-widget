@@ -33,6 +33,7 @@ public class BoardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Pick your Board!");
         setContentView(R.layout.activity_board);
 
         updateJSONString();

@@ -25,6 +25,7 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class GloWidget extends AppWidgetProvider {
     static private final String ACTION_REFRESH = "ActionRefresh";
+    static private final String ACTION_REFRESH_STACK = "ActionRefreshStack";
     static private final String ACTION_PREV = "ActionPrev";
     static private final String ACTION_NEXT = "ActionNext";
     static private String columnName = "No Column Yet";
@@ -35,6 +36,7 @@ public class GloWidget extends AppWidgetProvider {
     private int currColumnId1;
     private static SharedPreferences sharedPref;
     private static JSONArray Columns = new JSONArray();
+    private static boolean somethingHasChanged = true;
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
@@ -108,7 +110,10 @@ public class GloWidget extends AppWidgetProvider {
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId,R.id.stackview);
+        if(somethingHasChanged) {
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.stackview);
+            somethingHasChanged = false;
+        }
     }
 
     @Override
@@ -136,34 +141,28 @@ public class GloWidget extends AppWidgetProvider {
 
         if (ACTION_NEXT.equals(intent.getAction())) {
             currColumnId += 1;
-            int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,0);
-            AppWidgetManager manager = AppWidgetManager.getInstance(context);
-            manager.notifyAppWidgetViewDataChanged(appWidgetId,R.id.stackview);
             CallUpdate(context);
         }
         if (ACTION_PREV.equals(intent.getAction())) {
             currColumnId -= 1;
-            int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,0);
-            AppWidgetManager manager = AppWidgetManager.getInstance(context);
-            manager.notifyAppWidgetViewDataChanged(appWidgetId,R.id.stackview);
             CallUpdate(context);
         }
         if (ACTION_REFRESH.equals(intent.getAction())) {
-            int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,0);
-            AppWidgetManager manager = AppWidgetManager.getInstance(context);
-            manager.notifyAppWidgetViewDataChanged(appWidgetId,R.id.stackview);
+            somethingHasChanged = true;
+            CallUpdate(context);
+        }
+        if(ACTION_REFRESH_STACK.equals(intent.getAction())){
+            somethingHasChanged = true;
             CallUpdate(context);
         }
 
         super.onReceive(context, intent);
     }
 
-    private void CallUpdate(Context context){
 
+    public void CallUpdate(Context context){
         Intent intent = new Intent(context,GloWidget.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
-        // since it seems the onUpdate() is only fired on that:
         int[] ids = AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context,GloWidget.class));
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         context.sendBroadcast(intent);

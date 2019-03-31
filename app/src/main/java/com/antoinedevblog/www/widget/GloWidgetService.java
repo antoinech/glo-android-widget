@@ -1,9 +1,11 @@
 package com.antoinedevblog.www.widget;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -35,7 +37,7 @@ public class GloWidgetService extends RemoteViewsService {
     }
 
     class GloWidgetCardFactory implements RemoteViewsFactory{
-
+        static private final String ACTION_REFRESH_STACK = "ActionRefreshStack";
         private Context context;
         private int widgetId;
         private String PAT_key = "";
@@ -60,7 +62,6 @@ public class GloWidgetService extends RemoteViewsService {
         public void onDataSetChanged() {
             //Update the jsonString variable
             updateJSONString();
-
         }
 
         @Override
@@ -75,6 +76,7 @@ public class GloWidgetService extends RemoteViewsService {
 
         @Override
         public RemoteViews getViewAt(int position) {
+
             RemoteViews views = new RemoteViews(context.getPackageName(),R.layout.row_layout);
             JSONObject JO = new JSONObject();
             try {
@@ -129,7 +131,10 @@ public class GloWidgetService extends RemoteViewsService {
                 try {
                     Log.e("error",jsonString);
                     jsonArray = new JSONArray(jsonString);
+                    //CALL FOR AN UPDATE
+                    /*
 
+                    */
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -171,6 +176,7 @@ public class GloWidgetService extends RemoteViewsService {
                             // Display the first 500 characters of the response string.
                             jsonString = response;
                             getJSONDataFromString();
+                            askForRefresh();
                         }
                     }, new Response.ErrorListener() {
                 @Override
@@ -193,5 +199,15 @@ public class GloWidgetService extends RemoteViewsService {
             // Add the request to the RequestQueue.
             queue.add(stringRequest);
         }
+
+        private void askForRefresh(){
+            Intent refreshIntent = new Intent(context, GloWidget.class);
+            refreshIntent.setAction(ACTION_REFRESH_STACK);
+            refreshIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
+            context.sendBroadcast(refreshIntent);
+        }
+
     }
+
+
 }
