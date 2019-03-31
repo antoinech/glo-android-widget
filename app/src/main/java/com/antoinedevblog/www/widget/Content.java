@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Content extends AppCompatActivity {
+    //Put your credentials here
     private String clientID = "ci3xxwqzmm8rdoor3ug5";
     private String clientSECRET = "659g4jgojcyvidmye0ekhsrsi2jkjjexdi8q3afg";
     private String gloOAUTHurl = "https://app.gitkraken.com/oauth/authorize";
@@ -104,6 +105,11 @@ public class Content extends AppCompatActivity {
         sharedPref = getSharedPreferences("glo-app", MODE_PRIVATE);
         // save your string in SharedPreferences
         sharedPref.edit().putString("token", access_token).commit();
-        sharedPref.edit().putString("board","5bab6d4954d8310e0064a7b8").commit();
+
+        //Open Board selector
+        Intent intent = new Intent(this, BoardActivity.class);
+        startActivity(intent);
+
+        //sharedPref.edit().putString("board","5bab6d4954d8310e0064a7b8").commit();
     }
 }

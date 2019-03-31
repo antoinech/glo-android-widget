@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.antoinedevblog.www.widget">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,15 +17,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="http"
-                 android:host="antoinedevblog.com" />
-            </intent-filter>
 
+                <data
+                    android:host="antoinedevblog.com"
+                    android:scheme="http" />
+            </intent-filter>
         </activity>
 
         <receiver android:name=".GloWidget">
@@ -35,9 +38,16 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/glo_widget_info" />
         </receiver>
-        <service android:name=".GloWidgetService"
+
+        <service
+            android:name=".GloWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
+        <activity android:name=".BoardActivity"
+            android:label = "BoardActivity"
+            android:parentActivityName=".Content">
+
+        </activity>
     </application>
 
 </manifest>
